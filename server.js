@@ -11,18 +11,26 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(express.json());
 
-/// use t3awedh get post delete put
-const userrouter = require('./routes/UserRouter')
+/// use t3awedh get post delete put mtaa user
+const userrouter = require('./routes/UserRouter');
+const adminrouter = require('./routes/AdminRouter');
+const clientrouter = require('./routes/ClientRouter');
+const productrouter = require('./routes/ProductRouter');
+
 app.use('/users', userrouter);
+app.use('/admins', adminrouter);
+app.use('/clients', clientrouter);
+app.use('/products', productrouter);
 
 app.get('/', (req, res) => {
     res.send('hello world')
 })
 
 app.get('/hello/:name', (req, res) => {
-        res.send('hello ' + req.params.name)
-    })
-    /////////// 
+    res.send('hello ' + req.params.name)
+})
+
+
 
 ////requete tetbaath aal localhost 50000 tetsama middleware
 app.listen(5000, () => {

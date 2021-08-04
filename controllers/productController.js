@@ -1,52 +1,53 @@
-const User = require('../models/user')
+const product = require('../models/product');
+
 module.exports = {
-    /// create user
-    createuser: (req, res) => {
-        User.create(req.body, (err, user) => {
+    /// create product
+    createproduct: (req, res) => {
+        product.create(req.body, (err, product) => {
             if (err) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not created ' + err,
+                    message: 'product not created ' + err,
                     data: null,
                 })
             } else {
                 res.status(201).json({
-                    message: 'user successfully created ',
-                    data: user,
+                    message: 'product successfully created ',
+                    data: product,
                 });
             }
         });
     },
-    getuserbyid: (req, res) => {
-        User.findById({ _id: req.params.id }, (err, user) => {
-            if (!user) {
+    getproductbyid: (req, res) => {
+        product.findById({ _id: req.params.id }, (err, product) => {
+            if (!product) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not found ' + err,
+                    message: 'product not found ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'user found ',
-                    data: user,
+                    message: 'product found ',
+                    data: product,
                 });
             }
         });
     },
 
     //////////////indOneAndUpdate => taatyh fel param id ou name ou email ....
-    updateuser: (req, res) => {
-        User.findOneAndUpdate({ _id: req.params.id }, req.body, (err, user) => {
-            if (!user) {
+    updateproduct: (req, res) => {
+        product.findOneAndUpdate({ _id: req.params.id }, req.body, (err, product) => {
+            if (!product) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not updated ' + err,
+                    message: 'product not updated ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'user successfully updated',
-                    data: user,
+                    message: 'product successfully updated',
+                    data: product,
                 });
             }
         });
@@ -54,67 +55,67 @@ module.exports = {
 
 
     /////////// findByIdAndUpdate => taatyh fel param ken id
-    updateuser2: (req, res) => {
-        User.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, user) => {
-            if (!user) {
+    updateproduct2: (req, res) => {
+        product.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, product) => {
+            if (!product) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not updated ' + err,
+                    message: 'product not updated ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'user successfully updated',
+                    message: 'product successfully updated',
                     data: req.body,
                 });
             }
         });
     },
 
-    deleteuser: (req, res) => {
-        User.findOneAndDelete({ _id: req.params.id }, req.body, (err, user) => {
+    deleteproduct: (req, res) => {
+        product.findOneAndDelete({ _id: req.params.id }, req.body, (err, product) => {
             if (err) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not deleted ' + err,
+                    message: 'product not deleted ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'user successfully deleted',
-                    data: user,
+                    message: 'product successfully deleted',
+                    data: product,
                 });
             }
         });
     },
-    deleteuser2: (req, res) => {
-        User.findByIdAndDelete({ _id: req.params.id }, req.body, (err, user) => {
+    deleteproduct2: (req, res) => {
+        product.findByIdAndDelete({ _id: req.params.id }, req.body, (err, product) => {
             if (err) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'user not deleted ' + err,
+                    message: 'product not deleted ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'user successfully deleted',
-                    data: user,
+                    message: 'product successfully deleted',
+                    data: product,
                 });
             }
         });
     },
-    getallusers: (req, res) => {
-        User.find({}, (err, users) => {
-            if (users.length <= 0) {
+    getallproducts: (req, res) => {
+        product.find({}, (err, products) => {
+            if (products.length <= 0) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'no users in system ' + err,
+                    message: 'no products in system ' + err,
                     data: null,
                 })
             } else {
                 res.status(200).json({
-                    message: 'users in system',
-                    data: users,
+                    message: 'products in system',
+                    data: products,
                 });
             }
         });
