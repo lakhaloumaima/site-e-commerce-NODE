@@ -16,11 +16,14 @@ const userrouter = require('./routes/UserRouter');
 const adminrouter = require('./routes/AdminRouter');
 const clientrouter = require('./routes/ClientRouter');
 const productrouter = require('./routes/ProductRouter');
+const categoryrouter = require('./routes/CategoryRouter');
 
+//parent routes
 app.use('/users', userrouter);
 app.use('/admins', adminrouter);
 app.use('/clients', clientrouter);
 app.use('/products', productrouter);
+app.use('/categories', categoryrouter);
 
 app.get('/', (req, res) => {
     res.send('hello world')

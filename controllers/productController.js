@@ -3,7 +3,15 @@ const product = require('../models/product');
 module.exports = {
     /// create product
     createproduct: (req, res) => {
-        product.create(req.body, (err, product) => {
+        let data = {
+            name: req.body.name,
+            price: req.body.price,
+            qte: req.body.qte,
+            description: req.body.description,
+            category: req.body.category,
+            image: req.file.filename,
+        }
+        product.create(data, (err, product) => {
             if (err) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
@@ -19,25 +27,44 @@ module.exports = {
         });
     },
     getproductbyid: (req, res) => {
-        product.findById({ _id: req.params.id }, (err, product) => {
-            if (!product) {
-                ////erreur serveur attributs , code
+        product.findById({ _id: req.params.id })
+            .populate({
+                path: "category",
+            })
+            .then((product) => {
+                if (!product) {
+                    res.status(500).json({
+                        message: "product not found ",
+                        data: null,
+                    });
+
+                } else {
+                    res.status(200).json({
+                        message: "product  found ",
+                        data: product,
+                    });
+                }
+
+            })
+            .catch((err) => {
                 res.status(500).json({
-                    message: 'product not found ' + err,
+                    message: "product not found in system ",
                     data: null,
-                })
-            } else {
-                res.status(200).json({
-                    message: 'product found ',
-                    data: product,
                 });
-            }
-        });
+            });
     },
 
-    //////////////indOneAndUpdate => taatyh fel param id ou name ou email ....
+    //////////////findOneAndUpdate => taatyh fel param id ou name ou email ....
     updateproduct: (req, res) => {
-        product.findOneAndUpdate({ _id: req.params.id }, req.body, (err, product) => {
+        let data = {
+            name: req.body.name,
+            price: req.body.price,
+            qte: req.body.qte,
+            description: req.body.description,
+            category: req.body.category,
+            image: req.file.filename,
+        }
+        product.findOneAndUpdate({ _id: req.params.id }, data, (err, product) => {
             if (!product) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
@@ -48,36 +75,17 @@ module.exports = {
                 res.status(200).json({
                     message: 'product successfully updated',
                     data: product,
-                });
-            }
-        });
-    },
-
-
-    /////////// findByIdAndUpdate => taatyh fel param ken id
-    updateproduct2: (req, res) => {
-        product.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, product) => {
-            if (!product) {
-                ////erreur serveur attributs , code
-                res.status(500).json({
-                    message: 'product not updated ' + err,
-                    data: null,
-                })
-            } else {
-                res.status(200).json({
-                    message: 'product successfully updated',
-                    data: req.body,
                 });
             }
         });
     },
 
     deleteproduct: (req, res) => {
-        product.findOneAndDelete({ _id: req.params.id }, req.body, (err, product) => {
-            if (err) {
+        product.findByIdAndDelete({ _id: req.params.id }, (err, product) => {
+            if (!product) {
                 ////erreur serveur attributs , code
                 res.status(500).json({
-                    message: 'product not deleted ' + err,
+                    message: 'product not exist ' + err,
                     data: null,
                 })
             } else {
@@ -88,36 +96,23 @@ module.exports = {
             }
         });
     },
-    deleteproduct2: (req, res) => {
-        product.findByIdAndDelete({ _id: req.params.id }, req.body, (err, product) => {
-            if (err) {
-                ////erreur serveur attributs , code
-                res.status(500).json({
-                    message: 'product not deleted ' + err,
-                    data: null,
-                })
-            } else {
-                res.status(200).json({
-                    message: 'product successfully deleted',
-                    data: product,
-                });
-            }
-        });
-    },
+
     getallproducts: (req, res) => {
-        product.find({}, (err, products) => {
-            if (products.length <= 0) {
-                ////erreur serveur attributs , code
-                res.status(500).json({
-                    message: 'no products in system ' + err,
-                    data: null,
-                })
-            } else {
-                res.status(200).json({
-                    message: 'products in system',
+        product.find({})
+            .populate({
+                path: "category",
+            })
+            .then((products) => {
+                res.status(201).json({
+                    message: "product in system ",
                     data: products,
                 });
-            }
-        });
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    message: "no such product in system",
+                    data: null,
+                });
+            });
     },
 };

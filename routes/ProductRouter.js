@@ -1,16 +1,17 @@
 ///child route
 const express = require('express');
 const route = express.Router();
+const upload = require("../middlewares/upload");
 const ProductController = require('../controllers/productController')
 
 //create product
-route.post('/', ProductController.createproduct);
+route.post('/', upload.single('image'), ProductController.createproduct);
 
 // get user by id
 route.get('/:id', ProductController.getproductbyid);
 
 //update user
-route.put('/:id', ProductController.updateproduct);
+route.put('/:id', upload.single('image'), ProductController.updateproduct);
 
 
 //delete user
