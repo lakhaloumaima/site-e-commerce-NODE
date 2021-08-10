@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const clientSchema = new mongoose.Schema({
-    adress: {
+    address: {
         type: String,
 
     },
@@ -14,7 +14,11 @@ const clientSchema = new mongoose.Schema({
         type: Number,
 
     },
-
+    //////les ordres ly bsh yaadehom lclients
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+    }, ],
 });
 
 module.exports = User.discriminator("client", clientSchema);

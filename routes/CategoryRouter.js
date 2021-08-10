@@ -5,16 +5,18 @@
 const express = require('express');
 const route = express.Router();
 const upload = require("../middlewares/upload");
-const CategoryController = require('../controllers/CategoryController')
+const CategoryController = require('../controllers/categoryController');
+const isauth = require("../middlewares/auth");
+const isadmin = require("../middlewares/isAdmin");
 
 //create user
-route.post('/', upload.single('image'), CategoryController.createcategory);
+route.post('/', upload.single('image'), isauth, CategoryController.createcategory);
 
 //update user
-route.put('/:id', upload.single('image'), CategoryController.updatecategory);
+route.put('/:id', upload.single('image'), isauth, CategoryController.upadatecategory);
 
 //delete user
-route.delete('/:id', CategoryController.deletecategory);
+route.delete('/:id', isauth, CategoryController.deletecategory);
 
 // get user by id
 route.get('/:id', CategoryController.getcategorybyid);

@@ -1,21 +1,39 @@
-const admin = require('../models/admin');
-
+const Admin = require('../models/admin');
+///crypter le password
+const bcrypt = require('bcrypt');
 module.exports = {
     /// create admin
-    createadmin: (req, res) => {
-        admin.create(req.body, (err, admin) => {
-            if (err) {
-                ////erreur serveur attributs , code
-                res.status(500).json({
-                    message: 'admin not created ' + err,
-                    data: null,
-                })
-            } else {
-                res.status(201).json({
-                    message: 'admin successfully created ',
-                    data: admin,
-                });
-            }
-        });
+    createadmin: async(req, res) => {
+        const { name, email, password } = req.body
+        if (!email || !name || !password) {
+            return res.status(400).json({ message: "Please enter all fields" });
+        }
+
+        try {
+            const admin = await Admin.findOne({ email: email });
+            if (admin) throw Error("admin already exists");
+
+            const salt = await bcrypt.genSalt(10);
+            if (!salt) throw Error("Something went wrong with bcrypt");
+
+            const hash = await bcrypt.hash(password, salt);
+            if (!hash) throw Error("Something went wrong hashing the password");
+
+            const newAdmin = new Admin({
+                name,
+                email,
+                password: hash,
+            });
+
+            const savedAdmin = await newAdmin.save();
+            if (!savedAdmin) throw Error("Something went wrong saving the admin");
+
+            res.status(200).json({
+                message: "admin successfuly registred",
+                admin: savedAdmin,
+            });
+        } catch (e) {
+            res.status(400).json({ error: e.message });
+        }
     },
 };

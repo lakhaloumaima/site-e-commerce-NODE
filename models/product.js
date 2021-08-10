@@ -20,10 +20,6 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
     },
-    order: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
-    },
 
 
 });

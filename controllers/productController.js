@@ -63,6 +63,7 @@ module.exports = {
             description: req.body.description,
             category: req.body.category,
             image: req.file.filename,
+
         }
         product.findOneAndUpdate({ _id: req.params.id }, data, (err, product) => {
             if (!product) {

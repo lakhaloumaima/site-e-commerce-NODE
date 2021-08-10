@@ -11,15 +11,23 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    prixtotal: {
-        type: float,
+    total_price: {
+        type: Number,
         required: true
     },
-    status: {
-        type: Boolean,
+    livred: {
+        type: String,
+        required: false
+    },
+    client: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
-
+    products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+    }, ],
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

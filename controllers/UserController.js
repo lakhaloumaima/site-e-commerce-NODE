@@ -1,4 +1,6 @@
-const User = require('../models/user')
+const User = require('../models/user');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 module.exports = {
     /// create user
     createuser: (req, res) => {
@@ -119,4 +121,33 @@ module.exports = {
             }
         });
     },
+
+    //////jwt bsh les données yetaadew chiffrée
+    authenticate: async(req, res) => {
+        const { email, password } = req.body;
+
+        // Simple validation
+        if (!email || !password) {
+            return res.status(400).json({ msg: "Please enter all fields" });
+        }
+
+        try {
+            // Check for existing user
+            const user = await User.findOne({ email });
+            if (!user) throw Error("User does not exist");
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) throw Error("Invalid password");
+
+            const token = jwt.sign({ id: user._id }, 'jwt-secret', { expiresIn: 3600 });
+            if (!token) throw Error("Couldnt sign the token");
+
+            res.status(200).json({
+                token: token
+            });
+        } catch (e) {
+            res.status(400).json({ msg: e.message });
+        }
+    },
+
 };
