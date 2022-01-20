@@ -195,7 +195,7 @@ return (
               
             
             <Form.Item
-                  label="email get Tache By developer "
+                  label="Get Tache By Email developer "
                   name="email"
                   rules={[
                       {

@@ -1,4 +1,4 @@
-import { Badge, Button, Descriptions, Form, Input, Modal, Table, Tag  } from 'antd';
+import { Badge, Button, Descriptions, Form, Input, Modal, Result, Table, Tag  } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getproject, getprojects, selectprojects, getprojectbyclient, selectauthedproject, selectproject } from '../features/project/projectsSlice';
@@ -89,17 +89,29 @@ return (
          
           </div>
           <div>
-       
-        <Descriptions style={{ marginTop: "50px" }} title="Project ">
+          <div >
+         
+         {project !== undefined ?  
+              <Descriptions style={{ marginTop: "50px" }} title="Project ">
                
-                <Descriptions.Item label="client">{project.client}</Descriptions.Item>
-                
-                <Descriptions.Item label="project_name">{project.projectname}</Descriptions.Item>
-                <Descriptions.Item label="scrum_master">{project.scrum_master}</Descriptions.Item>
-                <Descriptions.Item label="date_debut">{project.date_debut}</Descriptions.Item>
-                <Descriptions.Item label="date_fin">{project.date_fin}</Descriptions.Item>
-                <Descriptions.Item label="description">{project.description}</Descriptions.Item>
-                 </Descriptions> 
+              <Descriptions.Item label="client">{project.client}</Descriptions.Item>
+              
+              <Descriptions.Item label="project_name">{project.projectname}</Descriptions.Item>
+              <Descriptions.Item label="scrum_master">{project.scrum_master}</Descriptions.Item>
+              <Descriptions.Item label="date_debut">{project.date_debut}</Descriptions.Item>
+              <Descriptions.Item label="date_fin">{project.date_fin}</Descriptions.Item>
+              <Descriptions.Item label="description">{project.description}</Descriptions.Item>
+               </Descriptions> 
+                    
+             :  <Result
+             status="500"
+             title="No data"
+            // subTitle="Sorry, something went wrong."
+             extra={<Button type="primary" href="/Home">Back Home</Button>}
+           />
+         }
+     </div>
+       
         </div>
           <br></br>
           

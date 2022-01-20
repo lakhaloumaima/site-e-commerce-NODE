@@ -23,6 +23,9 @@ const Addtache = () => {
   const success = () => {
     message.success('tache successfuly created');
 };
+const erreur = () => {
+    message.error('project not created');
+};
   const onFinish = (values) => {
         console.log('Success:', values);
 
@@ -31,7 +34,7 @@ const Addtache = () => {
             email : values.email ,
             tache_name : values.tache_name ,
             date_debut : values.date_debut ,
-            date_fin : values.date_fin ,
+            date_fin : values.date_fin > values.date_debut ? values.date_fin : erreur() ,
             etat : values.etat 
         }
 

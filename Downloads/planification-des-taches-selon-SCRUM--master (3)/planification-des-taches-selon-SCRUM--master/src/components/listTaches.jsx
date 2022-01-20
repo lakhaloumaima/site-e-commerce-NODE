@@ -6,7 +6,7 @@ import {
     CheckCircleOutlined, CloseCircleOutlined, CheckOutlined, EditOutlined 
 } from '@ant-design/icons';
 import { selectusers } from '../features/users/usersSlice';
-import { Badge, Button, Descriptions, Form, Input, Modal, Table, Tag  } from 'antd'
+import { Badge, Button, Descriptions, Form, Input, Modal, Result, Table, Tag  } from 'antd'
 import  { gettachebydeveloper, gettaches, selectauthedtaches , selecttache, selecttachess, updatetache} from '../features/tache/tachesSlice';
 
 const ListTaches = () => {
@@ -184,17 +184,24 @@ return (
                   </Form.Item>
           </Form>
         </div>
+        {taches !== undefined ?  
         <Descriptions style={{ marginTop: "50px" }} title="Tache ">
-                <Descriptions.Item label="tache_id">{tache.tache_id}</Descriptions.Item>
+                <Descriptions.Item label="tache_id">{taches.tache_id}</Descriptions.Item>
                 
-                <Descriptions.Item label="tache_name">{tache.tache_name}</Descriptions.Item>
-                <Descriptions.Item label="project_name">{tache.project_name}</Descriptions.Item>
-                <Descriptions.Item label="developer">{tache.developer}</Descriptions.Item>
-                <Descriptions.Item label="date_debut">{tache.date_debut}</Descriptions.Item>
-                <Descriptions.Item label="date_fin">{tache.date_fin}</Descriptions.Item>
-                <Descriptions.Item label="Etat">{tache.etat}</Descriptions.Item>
+                <Descriptions.Item label="tache_name">{taches.tache_name}</Descriptions.Item>
+                <Descriptions.Item label="project_name">{taches.project_name}</Descriptions.Item>
+                <Descriptions.Item label="developer">{taches.developer}</Descriptions.Item>
+                <Descriptions.Item label="date_debut">{taches.date_debut}</Descriptions.Item>
+                <Descriptions.Item label="date_fin">{taches.date_fin}</Descriptions.Item>
+                <Descriptions.Item label="Etat">{taches.etat}</Descriptions.Item>
         </Descriptions> 
-
+        :  <Result
+        status="500"
+        title="No data"
+        // subTitle="Sorry, something went wrong."
+        extra={<Button type="primary" href="/Home">Back Home</Button>}
+        />
+        }
       
           <br></br>
       
